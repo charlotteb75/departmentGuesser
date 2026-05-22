@@ -1,0 +1,15 @@
+.map-container path {
+    cursor: pointer;
+}
+
+.map-container path:hover {
+    opacity: 0.7;
+}
+
+.map-container path.selected {
+    fill: #f5c542;
+}
+
+.map-container path.found {
+  fill: green;
+}
