@@ -24,6 +24,7 @@ function initGame() {
   const departments = document.querySelectorAll(".map-container path");
   const form = document.querySelector("#guess-form");
   const input = document.querySelector("#department-guess");
+  const tooltip = document.querySelector("#tooltip");
 
   // Listening to zone click
   departments.forEach((department) => {
@@ -44,6 +45,27 @@ function initGame() {
       selectedDepartment = department;
       selectedDepartment.classList.add("selected");
 
+      });
+
+      // On mouse hover, if department is found, the name appears
+      department.addEventListener("mouseenter", () => {
+        if (!department.classList.contains("found")) {
+          return;
+        }
+
+        const name = departmentLabelMetadataById[department.id].name;
+
+        tooltip.textContent = name;
+        tooltip.style.display = "block";
+      });
+
+      department.addEventListener("mousemove", (event) => {
+        tooltip.style.left = `${event.pageX + 10}px`;
+        tooltip.style.top = `${event.pageY + 10}px`;
+      });
+
+      department.addEventListener("mouseleave", () => {
+        tooltip.style.display = "none";
       });
     });
 
@@ -66,57 +88,10 @@ function initGame() {
       selectedDepartment.classList.remove("selected");
       selectedDepartment.classList.add("found");
 
-      // Get width, height and position of path (departement)
-      const bbox = selectedDepartment.getBBox();
-      // Get center of path (department)
-      let centerX = bbox.x + bbox.width / 2;
-      let centerY = bbox.y + bbox.height / 2;
-
-      // If we have set a custom position for the answer
-      const customPosition = departmentLabelMetadataById[selectedDepartment.id].customPosition;
-      if (customPosition) {
-        centerX += customPosition.xOffset;
-        centerY += customPosition.yOffset;
-      }
-
-      // Create SVG text
-      const text = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "text"
-      );
-
-      // We place the answer inside the department
-      text.setAttribute("x", centerX);
-      text.setAttribute("y", centerY);
-
-      // If we have set a custom font size for the answer
-      const fontSize = departmentLabelMetadataById[selectedDepartment.id].fontSize;
-      if (fontSize) {
-        text.setAttribute("font-size", fontSize);
-      }
       
-      // For long department names, we divide in lines
-      const answerDivision = departmentLabelMetadataById[selectedDepartment.id].lines;
-      if(answerDivision) {
-        answerDivision.forEach((line, index) => {
-          const tspan = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "tspan"
-          );
-          tspan.textContent = line;
-          tspan.setAttribute("x", centerX);
-          tspan.setAttribute("dy", index === 0 ? "0" : "12");
-
-          text.appendChild(tspan);
-        });
-      } else {
-        text.textContent = expectedName;
-      }
-      // Adding the answer to the map
-      const group = selectedDepartment.parentElement;
-      group.appendChild(text);
     }
   });
+
 }
 
 
