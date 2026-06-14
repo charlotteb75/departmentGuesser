@@ -58,15 +58,15 @@ function initGame() {
 
       });
 
-      // On mouse hover, if department is found, the name appears
+      // On mouse hover, if department is found, the name appears, otherwise hint appears
       department.addEventListener("mouseenter", () => {
-        if (!department.classList.contains("found")) {
-          return;
-        }
+        const metadata = departmentLabelMetadataById[department.id];
 
-        const name = departmentLabelMetadataById[department.id].name;
+        const textToDisplay = department.classList.contains("found")
+          ? metadata.name
+          : metadata.hint;
 
-        tooltip.textContent = name;
+        tooltip.textContent = textToDisplay;
         tooltip.style.display = "block";
       });
 
@@ -108,6 +108,7 @@ function initGame() {
   restartButton.addEventListener("click", () => {
     foundDepartmentIds.clear();
     updateScore();
+    input.value = "";
     departments.forEach((department) => {
     department.classList.remove("found");
     department.classList.remove("selected");
