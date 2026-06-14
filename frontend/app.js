@@ -2,6 +2,7 @@
 // Metadata for department labels
 let departmentLabelMetadataById = {};
 
+// Retrieve department metadata
 fetch("./data/departments.json")
   .then((response) => response.json())
   .then((data) => {
@@ -21,10 +22,20 @@ function normalizeString(str) {
 function initGame() {
 
   let selectedDepartment = null;
+  const foundDepartmentIds = new Set();
   const departments = document.querySelectorAll(".map-container path");
   const form = document.querySelector("#guess-form");
   const input = document.querySelector("#department-guess");
   const tooltip = document.querySelector("#tooltip");
+  const restartButton = document.querySelector("#restart-button");
+  const totalDepartments = departments.length;
+
+  function updateScore() {
+  score.textContent = `Départements trouvés : ${foundDepartmentIds.size} / ${totalDepartments}`;
+  }
+
+  const score = document.querySelector("#score");
+  updateScore();
 
   // Listening to zone click
   departments.forEach((department) => {
@@ -87,9 +98,20 @@ function initGame() {
       console.log("You guessed right !");
       selectedDepartment.classList.remove("selected");
       selectedDepartment.classList.add("found");
-
+      foundDepartmentIds.add(selectedDepartment.id);
+      updateScore();
       
     }
+  });
+
+  // Reset everything to restart game
+  restartButton.addEventListener("click", () => {
+    foundDepartmentIds.clear();
+    updateScore();
+    departments.forEach((department) => {
+    department.classList.remove("found");
+    department.classList.remove("selected");
+    });
   });
 
 }

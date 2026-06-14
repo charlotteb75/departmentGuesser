@@ -14,7 +14,18 @@
 
     <main>
         <section class="game-panel">
-            <p id="instruction">Clique sur une zone pour proposer un nom de département</p>
+            <button id="restart-button" type="button">
+                Recommencer
+            </button>
+            <div class="game-header">
+                <p id="instruction">
+                    Clique sur une zone pour proposer un nom de département
+                </p>
+
+                <p id="score">
+                    Départements trouvés : 0 / 96
+                </p>
+            </div>
 
             <form id="guess-form">
                 <label for="department-guess">Nom du département</label>
@@ -22,7 +33,6 @@
                 <button type="submit">Valider</button>
             </form>
 
-            <p id="feedback"></p>
         </section>
 
         <section class="map-container">

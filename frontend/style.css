@@ -1,3 +1,8 @@
+.map-container {
+    display: flex;
+    justify-content: center;
+}
+
 .map-container path {
     cursor: pointer;
 }
@@ -21,4 +26,18 @@
   border: 1px solid black;
   padding: 4px 8px;
   pointer-events: none;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#instruction {
+    margin: 0;
+}
+
+#score {
+    margin: 0.5;
 }
