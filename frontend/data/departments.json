@@ -1,21 +1,8 @@
 {
-  "dep_01": {
-    "name": "Ain",
-    "customPosition": { "xOffset": -20, "yOffset": 4 }
-  },
-  "dep_02": {
-    "name": "Aisne",
-    "customPosition": { "xOffset": -20, "yOffset": -5 }
-  },
-  "dep_03": {
-    "name": "Allier"
-  },
-  "dep_04": {
-    "name": "Alpes-de-Haute-Provence",
-    "customPosition": { "xOffset": -30, "yOffset": 13 },
-    "fontSize": 10,
-    "lines": ["Alpes-de-Haute", "Provence"]
-  },
+  "dep_01": {"name": "Ain"},
+  "dep_02": {"name": "Aisne"},
+  "dep_03": {"name": "Allier"},
+  "dep_04": {"name": "Alpes-de-Haute-Provence"},
   "dep_05": { "name": "Hautes-Alpes" },
   "dep_06": { "name": "Alpes-Maritimes" },
   "dep_07": { "name": "Ardèche" },
