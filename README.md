@@ -1,10 +1,10 @@
 # Memory Game
 
-Web game to learn french departments from an svg map.
+Web game where you have to guess french departments from a map.
 
 ## Stack
 
-- Frontend : undefined yet
+- Frontend : Javascript/HTML/CSS
 - Backend : Flask
 - Database : PostgreSQL
 - Migrations : Alembic
