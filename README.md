@@ -28,7 +28,6 @@ erDiagram
         int user_id FK
         string name
         jsonb found_department_ids
-        string selected_department_id
         datetime completed_at
         datetime created_at
         datetime updated_at
