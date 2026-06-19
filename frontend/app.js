@@ -55,6 +55,7 @@ function initGame() {
 
       selectedDepartment = department;
       selectedDepartment.classList.add("selected");
+      input.focus();
 
       });
 
