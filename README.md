@@ -1,4 +1,4 @@
-# Memory Game
+# Department Guesser
 
 Web game where you have to guess french departments from a map.
 
