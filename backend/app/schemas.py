@@ -10,3 +10,7 @@ class RegisterSchema(Schema):
         load_only=True,
         validate=validate.Length(min=8, max=80),
     )
+
+class LoginSchema(Schema):
+    username = fields.String(required=True)
+    password = fields.String(required=True, load_only=True)
