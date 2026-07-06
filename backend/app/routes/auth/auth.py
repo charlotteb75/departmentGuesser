@@ -4,7 +4,7 @@ from marshmallow import ValidationError
 from ... import db
 from ...models import User, Game
 from ...schemas import RegisterSchema, LoginSchema
-from .utils import create_access_token, decode_access_token
+from .utils import create_access_token, auth_required
 import jwt
 
 auth_bp = Blueprint("auth", __name__)
@@ -93,27 +93,11 @@ def logout():
 
 
 @auth_bp.get("/me")
-def me():
-    auth_header = request.headers.get("Authorization")
-    if auth_header is None:
-        return jsonify({"errors": {"authorization": ["Missing Authorization header"]}}), 401
-    if not auth_header.startswith("Bearer "):
-        return jsonify({"errors": {"authorization": ["Invalid Authorization header"]}}), 401
-    token = auth_header.removeprefix("Bearer ").strip()
-    try:
-        payload = decode_access_token(token)
-    except jwt.ExpiredSignatureError:
-        return jsonify({"errors": {"token": ["Token expired"]}}), 401
-    except jwt.InvalidTokenError:
-        return jsonify({"errors": {"token": ["Invalid token"]}}), 401
-
-    user_id = int(payload["sub"])
-    user = db.session.get(User, user_id)
-    if user is None:
-        return jsonify({"errors": {"user": ["User doesn't exist"]}}), 401
+@auth_required
+def me(current_user):
     return jsonify({
         "user": {
-            "id": user.id,
-            "username": user.username,
+            "id": current_user.id,
+            "username": current_user.username,
         }
     }), 200
