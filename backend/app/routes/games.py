@@ -6,6 +6,15 @@ from ..schemas import GameCreateSchema, GameUpdateSchema
 
 games_bp = Blueprint("games", __name__)
 
+def serialize_game(game):
+    return {
+        "id": game.id,
+        "name": game.name,
+        "found_department_ids": game.found_department_ids,
+        "score": game.score,
+        "created_at": game.created_at.isoformat()
+    }
+
 
 @games_bp.get("")
 @auth_required
@@ -16,18 +25,7 @@ def list_games(current_user):
         .order_by(Game.updated_at.desc())
     ).scalars().all()
     return jsonify({
-        "games": [
-            {
-                "id": game.id,
-                "name": game.name,
-                "found_department_ids": game.found_department_ids,
-                "score": game.score,
-                "completed_at": game.completed_at.isoformat() if game.completed_at else None,
-                "created_at": game.created_at.isoformat(),
-                "updated_at": game.updated_at.isoformat(),
-            }
-            for game in games
-        ]
+        "games": [serialize_game(game) for game in games]
     }), 200
 
 
@@ -46,14 +44,7 @@ def create_game(current_user):
     new_game = Game(user=current_user, name=data["name"], found_department_ids=[])
     db.session.add(new_game)
     db.session.commit()
-    return jsonify({
-    "game": {
-        "id": new_game.id,
-        "name": new_game.name,
-        "found_department_ids": new_game.found_department_ids,
-        "score": new_game.score,
-        },
-    }), 201
+    return jsonify({"game": serialize_game(game)}), 201
 
 
 @games_bp.get("/<int:game_id>")
@@ -69,14 +60,7 @@ def get_game(current_user, game_id):
     if game is None:
         return jsonify({"errors": {"game": ["Game not found"]}}), 404
 
-    return jsonify({
-    "game": {
-        "id": game.id,
-        "name": game.name,
-        "found_department_ids": game.found_department_ids,
-        "score": game.score,
-        },
-    }), 200
+    return jsonify({"game": serialize_game(game)}), 200
 
 
 @games_bp.patch("/<int:game_id>")
@@ -112,11 +96,4 @@ def update_game(current_user, game_id):
         game.found_department_ids = data["found_department_ids"]
 
     db.session.commit()
-    return jsonify({
-        "game": {
-            "id": game.id,
-            "name": game.name,
-            "found_department_ids": game.found_department_ids,
-            "score": game.score,
-        },
-    }), 200
+    return jsonify({"game": serialize_game(game)}), 200
