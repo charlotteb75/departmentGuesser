@@ -29,9 +29,125 @@ body {
 }
 
 header {
+  position: relative;
   max-width: 1180px;
   margin: 0 auto;
   padding: 28px 24px 8px;
+}
+
+.auth-actions {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#open-login-modal {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 10px 24px rgba(23, 32, 51, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+#open-login-modal:hover {
+  color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 12px 26px rgba(23, 32, 51, 0.12);
+}
+
+#login-modal-title {
+  margin: 0 40px 18px 0;
+}
+
+#login-form {
+  display: grid;
+  gap: 8px;
+}
+
+#login-form input {
+  margin-bottom: 8px;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 10px 24px rgba(23, 32, 51, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.user-menu[hidden] {
+  display: none;
+}
+
+#current-username {
+  padding: 0 6px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+#logout-button {
+  min-height: 34px;
+  padding: 0 10px;
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(23, 32, 51, 0.46);
+}
+
+.modal-dialog {
+  position: relative;
+  width: min(420px, calc(100% - 32px));
+  margin: 12vh auto 0;
+  padding: 24px;
+  border-radius: 8px;
+  background: white;
+}
+
+.modal-close {
+  position: absolute;
+  top: 22px;
+  right: 18px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--muted);
+  background: transparent;
+  box-shadow: none;
+  font-size: 1.35rem;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.modal-close:hover {
+  color: var(--text);
+  background: rgba(97, 112, 137, 0.1);
+  box-shadow: none;
+  transform: none;
 }
 
 h1 {
@@ -51,7 +167,7 @@ main {
 
 .game-panel {
   position: sticky;
-  top: 16px;
+  top: 72px;
   z-index: 100;
   display: grid;
   grid-template-columns: auto 1fr;
