@@ -73,11 +73,45 @@ header {
   margin-bottom: 8px;
 }
 
+#password-policy {
+  margin: -4px 0 8px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
 #auth-error {
   margin: 0;
   color: #dc2626;
   font-size: 0.9rem;
   font-weight: 700;
+}
+
+.auth-switch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+#toggle-auth-mode {
+  min-height: auto;
+  padding: 4px;
+  color: var(--primary);
+  background: transparent;
+  box-shadow: none;
+  font-weight: 700;
+}
+
+#toggle-auth-mode:hover {
+  color: var(--primary-dark);
+  background: transparent;
+  box-shadow: none;
+  transform: none;
 }
 
 .user-menu {
