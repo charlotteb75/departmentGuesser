@@ -7,9 +7,16 @@ const loginForm = document.querySelector("#login-form");
 const loginUsernameInput = document.querySelector("#login-username");
 const loginPasswordInput = document.querySelector("#login-password");
 const authError = document.querySelector("#auth-error");
+const authModalTitle = document.querySelector("#login-modal-title");
+const authSubmitButton = document.querySelector("#auth-submit-button");
+const authSwitchText = document.querySelector("#auth-switch-text");
+const toggleAuthModeButton = document.querySelector("#toggle-auth-mode");
+const passwordPolicy = document.querySelector("#password-policy");
 const userMenu = document.querySelector("#user-menu");
 const currentUsername = document.querySelector("#current-username");
 const logoutButton = document.querySelector("#logout-button");
+
+let authMode = "login";
 
 function getToken() {
   return localStorage.getItem("access_token");
@@ -53,11 +60,33 @@ async function apiFetch(path, options = {}) {
 }
 
 openLoginModalButton.addEventListener("click", () => {
+  setAuthMode("login");
   loginModal.hidden = false;
 });
 
 closeLoginModalButton.addEventListener("click", () => {
   loginModal.hidden = true;
+});
+
+function setAuthMode(mode) {
+  authMode = mode;
+  const isRegisterMode = authMode === "register";
+
+  authModalTitle.textContent = isRegisterMode ? "Créer un compte" : "Connexion";
+  authSubmitButton.textContent = isRegisterMode ? "Créer mon compte" : "Se connecter";
+  authSwitchText.textContent = isRegisterMode ? "Déjà un compte ?" : "Pas encore de compte ?";
+  toggleAuthModeButton.textContent = isRegisterMode ? "Se connecter" : "Créer un compte";
+  loginPasswordInput.autocomplete = isRegisterMode ? "new-password" : "current-password";
+  loginPasswordInput.minLength = isRegisterMode ? 12 : 0;
+  loginUsernameInput.minLength = isRegisterMode ? 3 : 0;
+  passwordPolicy.hidden = !isRegisterMode;
+  authError.textContent = "";
+  loginForm.reset();
+}
+
+toggleAuthModeButton.addEventListener("click", () => {
+  setAuthMode(authMode === "login" ? "register" : "login");
+  loginUsernameInput.focus();
 });
 
 function renderAuthenticatedUser(user) {
@@ -80,7 +109,41 @@ loginForm.addEventListener("submit", async (event) => {
   const username = loginUsernameInput.value.trim();
   const password = loginPasswordInput.value;
 
+  if (!username || !password) {
+    authError.textContent = "Veuillez remplir tous les champs.";
+    return;
+  }
+
+  if (authMode === "register" && username.length < 3) {
+    authError.textContent = "Le nom d'utilisateur doit contenir au moins 3 caractères.";
+    loginUsernameInput.focus();
+    return;
+  }
+
+  const passwordIsStrong =
+    password.length >= 12 &&
+    /[A-Z]/.test(password) &&
+    /[0-9]/.test(password) &&
+    /[^A-Za-z0-9\s]/.test(password);
+
+  if (authMode === "register" && !passwordIsStrong) {
+    authError.textContent =
+      "Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.";
+    loginPasswordInput.focus();
+    return;
+  }
+
   try {
+    if (authMode === "register") {
+      await apiFetch("/auth/register", {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+    }
+
     const data = await apiFetch("/auth/login", {
       method: "POST",
       body: JSON.stringify({
@@ -98,7 +161,16 @@ loginForm.addEventListener("submit", async (event) => {
 
     console.log("Utilisateur connecté :", data.user);
   } catch (error) {
-    authError.textContent = "Identifiants invalides.";
+    if (authMode === "register" && error.errors?.username) {
+      authError.textContent = "Ce nom d'utilisateur est déjà utilisé.";
+    } else if (authMode === "register" && error.errors?.password) {
+      authError.textContent =
+        "Le mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.";
+    } else if (authMode === "register") {
+      authError.textContent = "Impossible de créer le compte.";
+    } else {
+      authError.textContent = "Identifiants invalides.";
+    }
     console.error(error);
   }
 });
@@ -243,5 +315,3 @@ function initGame() {
   });
 
 }
-
-

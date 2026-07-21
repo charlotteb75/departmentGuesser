@@ -32,16 +32,24 @@
 
             <h2 id="login-modal-title">Connexion</h2>
 
-            <form id="login-form">
+            <form id="login-form" novalidate>
                 <label for="login-username">Nom d'utilisateur</label>
-                <input id="login-username" type="text" autocomplete="username" />
+                <input id="login-username" type="text" autocomplete="username" required />
 
                 <label for="login-password">Mot de passe</label>
-                <input id="login-password" type="password" autocomplete="current-password" />
+                <input id="login-password" type="password" autocomplete="current-password" required />
+                <small id="password-policy" hidden>
+                    12 caractères minimum, avec une majuscule, un chiffre et un caractère spécial.
+                </small>
 
-                <p id="auth-error"></p>
+                <p id="auth-error" role="alert" aria-live="polite"></p>
 
-                <button type="submit">Se connecter</button>
+                <button id="auth-submit-button" type="submit">Se connecter</button>
+
+                <p class="auth-switch">
+                    <span id="auth-switch-text">Pas encore de compte ?</span>
+                    <button id="toggle-auth-mode" type="button">Créer un compte</button>
+                </p>
             </form>
         </section>
     </div>
