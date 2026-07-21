@@ -54,10 +54,42 @@
         </section>
     </div>
 
+    <div id="game-modal" class="modal" hidden>
+        <div class="modal-backdrop" data-close-game-modal></div>
+
+        <section class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="game-modal-title">
+            <button id="close-game-modal" class="modal-close" type="button" aria-label="Fermer">
+                ×
+            </button>
+
+            <h2 id="game-modal-title">Nommer la partie</h2>
+
+            <form id="game-form" novalidate>
+                <label for="game-name">Nom de la partie</label>
+                <input id="game-name" type="text" maxlength="120" required />
+                <p id="game-error" role="alert" aria-live="polite"></p>
+                <button id="game-submit-button" type="submit">Démarrer la partie</button>
+            </form>
+        </section>
+    </div>
+
+    <div id="anonymous-save-notice" class="save-notice" hidden>
+        <span>Créez un compte pour sauvegarder l’avancement de la partie.</span>
+        <button id="open-register-modal" type="button">Créer un compte</button>
+    </div>
+
+    <div class="app-layout">
+    <aside id="games-sidebar" class="games-sidebar" hidden>
+        <div class="games-sidebar-header">
+            <h2>Mes parties</h2>
+        </div>
+        <div id="games-list" class="games-list"></div>
+    </aside>
+
     <main>
         <section class="game-panel">
             <button id="restart-button" type="button">
-                Recommencer
+                Nouvelle partie
             </button>
             <div class="game-header">
                 <p id="instruction">
@@ -185,6 +217,7 @@
 
         </section>
     </main>
+    </div>
     <div id="tooltip" class="tooltip"></div>
 </body>
 </html>
