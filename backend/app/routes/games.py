@@ -1,10 +1,13 @@
 from flask import Blueprint, jsonify, request
+from marshmallow import ValidationError
+
 from .. import db
 from ..models import Game
 from .auth.utils import auth_required
 from ..schemas import GameCreateSchema, GameUpdateSchema
 
 games_bp = Blueprint("games", __name__)
+
 
 def serialize_game(game):
     return {
@@ -14,6 +17,21 @@ def serialize_game(game):
         "score": game.score,
         "created_at": game.created_at.isoformat()
     }
+
+
+def get_default_game_name(current_user):
+    existing_names = set(db.session.execute(
+        db.select(Game.name).where(Game.user_id == current_user.id)
+    ).scalars())
+
+    if "Nouvelle partie" not in existing_names:
+        return "Nouvelle partie"
+
+    suffix = 2
+    while f"Nouvelle partie {suffix}" in existing_names:
+        suffix += 1
+
+    return f"Nouvelle partie {suffix}"
 
 
 @games_bp.get("")
@@ -41,10 +59,11 @@ def create_game(current_user):
         data = game_create_schema.load(payload)
     except ValidationError as error:
         return jsonify({"errors": error.messages}), 400
-    new_game = Game(user=current_user, name=data["name"], found_department_ids=[])
+    game_name = data.get("name") or get_default_game_name(current_user)
+    new_game = Game(user=current_user, name=game_name, found_department_ids=[])
     db.session.add(new_game)
     db.session.commit()
-    return jsonify({"game": serialize_game(game)}), 201
+    return jsonify({"game": serialize_game(new_game)}), 201
 
 
 @games_bp.get("/<int:game_id>")
@@ -97,3 +116,21 @@ def update_game(current_user, game_id):
 
     db.session.commit()
     return jsonify({"game": serialize_game(game)}), 200
+
+
+@games_bp.delete("/<int:game_id>")
+@auth_required
+def delete_game(current_user, game_id):
+    game = db.session.execute(
+        db.select(Game).where(
+            Game.id == game_id,
+            Game.user_id == current_user.id,
+        )
+    ).scalar_one_or_none()
+
+    if game is None:
+        return jsonify({"errors": {"game": ["Game not found"]}}), 404
+
+    db.session.delete(game)
+    db.session.commit()
+    return jsonify({"message": "Game deleted"}), 200

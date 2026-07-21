@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from marshmallow import ValidationError
 
 from ... import db
-from ...models import User, Game
+from ...models import User
 from ...schemas import RegisterSchema, LoginSchema
 from .utils import create_access_token, auth_required
 import jwt
@@ -33,20 +33,12 @@ def register():
     user = User(username=data["username"])
     user.set_password(data["password"])
     db.session.add(user)
-    game = Game(user=user, found_department_ids=[])
-    db.session.add(game)
     db.session.commit()
 
     return jsonify({
-    "user": {
-        "id": user.id,
-        "username": user.username,
-    },
-    "game": {
-        "id": game.id,
-        "name": game.name,
-        "found_department_ids": game.found_department_ids,
-        "score": game.score,
+        "user": {
+            "id": user.id,
+            "username": user.username,
         },
     }), 201
 
