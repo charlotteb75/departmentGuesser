@@ -36,9 +36,8 @@ header {
 }
 
 .auth-actions {
-  position: fixed;
-  top: 24px;
-  right: 24px;
+  position: absolute;
+  inset: 24px 24px auto auto;
   z-index: 200;
   display: flex;
   align-items: center;
@@ -72,6 +71,13 @@ header {
 
 #login-form input {
   margin-bottom: 8px;
+}
+
+#auth-error {
+  margin: 0;
+  color: #dc2626;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .user-menu {
