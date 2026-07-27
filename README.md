@@ -11,6 +11,27 @@ You can create an account to save your games and log back in at a later time, or
 - ORM : SQLAlchemy
 - Migrations : Alembic
 
+## Backend setup
+
+From the `backend` directory:
+
+```bash
+uv sync
+cp .env.example .env
+uv run flask --app run run --debug
+```
+
+`uv sync` creates the `.venv` virtual environment and installs the exact
+dependency versions recorded in `uv.lock`. The project metadata and direct
+dependencies are declared in `backend/pyproject.toml`.
+
+To add or remove a dependency:
+
+```bash
+uv add package-name
+uv remove package-name
+```
+
 ## Database graph
 
 ```mermaid
