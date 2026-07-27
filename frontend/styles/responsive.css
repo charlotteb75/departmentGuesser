@@ -1,0 +1,61 @@
+@media (max-width: 760px) {
+  header {
+    padding: 22px 16px 6px;
+  }
+
+  h1 {
+    max-width: 100%;
+    font-size: clamp(1.1rem, 5.6vw, 1.55rem);
+    line-height: 1.12;
+  }
+
+  .app-layout {
+    grid-template-columns: 1fr;
+    width: calc(100% - 20px);
+    margin-bottom: 28px;
+  }
+
+  .games-sidebar {
+    position: static;
+    max-height: none;
+    margin-top: 10px;
+  }
+
+  .save-notice {
+    right: 10px;
+    bottom: 10px;
+    align-items: stretch;
+    flex-direction: column;
+    max-width: calc(100% - 20px);
+  }
+
+  .game-panel,
+  .game-header,
+  #guess-form {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .game-panel {
+    top: 8px;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .game-header {
+    gap: 10px;
+  }
+
+  #score {
+    width: fit-content;
+  }
+
+  .map-container {
+    padding: 12px;
+    overflow-x: auto;
+  }
+
+  .map-container svg {
+    min-width: 520px;
+  }
+}

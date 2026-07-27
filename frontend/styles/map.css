@@ -1,0 +1,53 @@
+.map-container {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 14px 44px rgba(23, 32, 51, 0.08);
+}
+
+.map-container svg {
+  width: min(100%, 820px);
+  height: auto;
+  filter: drop-shadow(0 18px 22px rgba(23, 32, 51, 0.12));
+}
+
+.map-container g[fill="#8ad"] {
+  fill: var(--map);
+  stroke: var(--map-stroke);
+}
+
+.map-container path {
+  cursor: pointer;
+  transition: fill 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
+}
+
+.map-container path:hover {
+  fill: #5f9fe2;
+  opacity: 0.9;
+}
+
+.map-container path.selected {
+  fill: var(--selected);
+}
+
+.map-container path.found {
+  fill: var(--found);
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  max-width: 220px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 30px rgba(23, 32, 51, 0.16);
+  font-size: 0.9rem;
+  font-weight: 700;
+  pointer-events: none;
+}
