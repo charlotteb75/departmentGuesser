@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "department-guesser-backend"
-version = "0.3.2"
+version = "1.0.0"
 description = "Flask API for the Department Guesser game"
 requires-python = ">=3.11"
 dependencies = [
