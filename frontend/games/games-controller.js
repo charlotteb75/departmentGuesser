@@ -1,4 +1,4 @@
-import { apiFetch, getToken } from "../api/client.js";
+import { apiFetch, getToken } from "../services/client.js";
 
 export function createGamesController({ board }) {
   const gamesSidebar = document.querySelector("#games-sidebar");

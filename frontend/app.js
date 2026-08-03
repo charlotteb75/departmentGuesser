@@ -1,7 +1,7 @@
-import { getToken } from "./api/client.js";
-import { createAuthController } from "./auth/auth-controller.js";
-import { createGamesController } from "./games/games-controller.js";
-import { createMapGame } from "./map/map-game.js";
+import { getToken } from "./services/client.js?v=20260803";
+import { createAuthController } from "./auth/auth-controller.js?v=20260803";
+import { createGamesController } from "./games/games-controller.js?v=20260803";
+import { createMapGame } from "./map/map-game.js?v=20260803";
 
 async function loadDepartmentMetadata() {
   const response = await fetch("./data/departments.json");
