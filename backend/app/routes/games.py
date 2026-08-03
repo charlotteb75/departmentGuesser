@@ -60,7 +60,11 @@ def create_game(current_user):
     except ValidationError as error:
         return jsonify({"errors": error.messages}), 400
     game_name = data.get("name") or get_default_game_name(current_user)
-    new_game = Game(user=current_user, name=game_name, found_department_ids=[])
+    new_game = Game(
+        user=current_user,
+        name=game_name,
+        found_department_ids=data.get("found_department_ids", []),
+    )
     db.session.add(new_game)
     db.session.commit()
     return jsonify({"game": serialize_game(new_game)}), 201

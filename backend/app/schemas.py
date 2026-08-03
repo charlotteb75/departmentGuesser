@@ -37,6 +37,7 @@ class LoginSchema(Schema):
 class GameCreateSchema(Schema):
     name = fields.String(
         validate=validate.Length(min=1, max=120))
+    found_department_ids = fields.List(fields.String())
 
 
 class GameUpdateSchema(Schema):
