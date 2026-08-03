@@ -3,7 +3,7 @@ import {
   clearToken,
   getToken,
   setToken,
-} from "../api/client.js";
+} from "../services/client.js";
 
 export function createAuthController({ board, games }) {
   const openLoginModalButton = document.querySelector("#open-login-modal");

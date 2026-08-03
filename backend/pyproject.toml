@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "department-guesser-backend"
-version = "1.0.0"
+version = "1.1.0"
 description = "Flask API for the Department Guesser game"
 requires-python = ">=3.11"
 dependencies = [
@@ -12,6 +12,7 @@ dependencies = [
   "Flask-Cors==6.0.1",
   "Flask-Migrate==4.1.0",
   "Flask-SQLAlchemy==3.1.1",
+  "gunicorn==23.0.0",
   "marshmallow==3.23.2",
   "psycopg2-binary==2.9.12",
   "PyJWT==2.10.1",

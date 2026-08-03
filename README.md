@@ -10,8 +10,49 @@ You can create an account to save your games and log back in at a later time, or
 - Database : PostgreSQL
 - ORM : SQLAlchemy
 - Migrations : Alembic
+- Production server : Gunicorn
+- Reverse proxy : Nginx
 
-## Backend setup
+## Run with Docker
+
+Requirements: Docker and Docker Compose.
+
+From the project root:
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+If Docker is installed with the standalone Compose executable, use
+`docker-compose` instead of `docker compose` in these commands.
+
+Open `http://localhost:8080`. The port can be changed with `APP_PORT` in
+the root `.env` file.
+
+The stack contains four Compose services running three long-lived containers:
+
+- `frontend`: Nginx serves the static frontend and proxies `/api` requests;
+- `backend`: Gunicorn runs the Flask application;
+- `database`: PostgreSQL stores the application data;
+- `migrate`: a one-shot service applies the Alembic migrations before the API starts.
+
+Stop the application while preserving database data:
+
+```bash
+docker compose down
+```
+
+To also delete the PostgreSQL volume and all application data:
+
+```bash
+docker compose down --volumes
+```
+
+Do not commit the root `.env` file. Replace the example passwords and secrets
+before exposing the application outside your machine.
+
+## Local development without Docker
 
 From the `backend` directory:
 
@@ -19,17 +60,6 @@ From the `backend` directory:
 uv sync
 cp .env.example .env
 uv run flask --app run run --debug
-```
-
-`uv sync` creates the `.venv` virtual environment and installs the exact
-dependency versions recorded in `uv.lock`. The project metadata and direct
-dependencies are declared in `backend/pyproject.toml`.
-
-To add or remove a dependency:
-
-```bash
-uv add package-name
-uv remove package-name
 ```
 
 ## Database graph
