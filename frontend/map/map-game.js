@@ -121,6 +121,7 @@ export function createMapGame({
   return {
     clear,
     display,
+    getFoundDepartmentIds: () => [...foundDepartmentIds],
     hasProgress: () => foundDepartmentIds.size > 0,
   };
 }

@@ -178,6 +178,18 @@ export function createGamesController({ board }) {
     selectGame((preferredGame || userGames[0]).id);
   }
 
+  async function importAnonymousProgress(foundDepartmentIds) {
+    const data = await apiFetch("/games", {
+      method: "POST",
+      body: JSON.stringify({
+        name: getSuggestedGameName(),
+        found_department_ids: [...foundDepartmentIds],
+      }),
+    });
+
+    await loadUserGames(data.game.id);
+  }
+
   function saveCurrentGame(foundDepartmentIds) {
     const gameId = currentGameId;
 
@@ -247,6 +259,7 @@ export function createGamesController({ board }) {
   });
 
   return {
+    importAnonymousProgress,
     loadUserGames,
     openGameModal,
     reset,

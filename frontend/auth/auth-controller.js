@@ -111,6 +111,9 @@ export function createAuthController({ board, games }) {
 
     const username = loginUsernameInput.value.trim();
     const password = loginPasswordInput.value;
+    const anonymousProgress = authMode === "register"
+      ? board.getFoundDepartmentIds()
+      : [];
 
     if (!username || !password) {
       authError.textContent = "Veuillez remplir tous les champs.";
@@ -152,7 +155,13 @@ export function createAuthController({ board, games }) {
 
       setToken(data.access_token);
       renderAuthenticatedUser(data.user);
-      await games.loadUserGames();
+
+      if (anonymousProgress.length > 0) {
+        await games.importAnonymousProgress(anonymousProgress);
+      } else {
+        await games.loadUserGames();
+      }
+
       loginModal.hidden = true;
       loginForm.reset();
     } catch (error) {
