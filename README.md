@@ -65,6 +65,50 @@ cp .env.example .env
 uv run flask --app run run --debug
 ```
 
+## Backend integration tests
+
+The integration tests use a dedicated PostgreSQL container. From the project
+root, start it with:
+
+```bash
+docker compose --profile test up -d database-test
+```
+
+If Compose is installed as a standalone executable, replace `docker compose`
+with `docker-compose`.
+
+Then run the test suite from the `backend` directory:
+
+```bash
+uv sync --dev
+uv run pytest
+```
+
+Unit tests do not require PostgreSQL and can be run independently:
+
+```bash
+uv run pytest tests/unit
+```
+
+Run only the integration tests, after starting `database-test`:
+
+```bash
+uv run pytest tests/integration
+```
+
+Generate a coverage report with:
+
+```bash
+uv run pytest --cov=app --cov-report=term-missing
+```
+
+The test database listens only on `127.0.0.1:5433`, uses temporary storage,
+and is separate from the development database. Stop it from the project root:
+
+```bash
+docker compose --profile test down
+```
+
 ## Database graph
 
 ```mermaid
