@@ -3,7 +3,7 @@ import re
 from marshmallow import Schema, ValidationError, fields, validate
 
 
-def validate_password(password):
+def validate_password(password: str) -> None:
     password_is_strong = (
         len(password) >= 12
         and re.search(r"[A-Z]", password)

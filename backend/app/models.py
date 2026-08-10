@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from . import db
 
 
-def utc_now():
+def utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
 

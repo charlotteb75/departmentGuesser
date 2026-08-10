@@ -2,14 +2,14 @@ from flask import Blueprint, jsonify, request
 from marshmallow import ValidationError
 
 from .. import db
-from ..models import Game
+from ..models import Game, User
 from .auth.utils import auth_required
 from ..schemas import GameCreateSchema, GameUpdateSchema
 
 games_bp = Blueprint("games", __name__)
 
 
-def serialize_game(game):
+def serialize_game(game: Game) -> dict[str, object]:
     return {
         "id": game.id,
         "name": game.name,
@@ -19,7 +19,7 @@ def serialize_game(game):
     }
 
 
-def get_default_game_name(current_user):
+def get_default_game_name(current_user: User) -> str:
     existing_names = set(db.session.execute(
         db.select(Game.name).where(Game.user_id == current_user.id)
     ).scalars())
