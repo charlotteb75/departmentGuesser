@@ -3,6 +3,9 @@
 Web game where you have to guess french departments from a map.
 You can create an account to save your games and log back in at a later time, or you can play without saving your progression.
 
+<img width="1456" height="744" alt="Capture d’écran 2026-08-03 à 18 21 28" src="https://github.com/user-attachments/assets/a427aa77-9eb8-4800-b2cf-d960ae6ec7e7" />
+
+
 ## Stack
 
 - Frontend : Javascript/HTML/CSS
