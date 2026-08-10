@@ -1,3 +1,5 @@
+from typing import TypedDict
+
 from flask import Blueprint, jsonify, request
 from marshmallow import ValidationError
 
@@ -9,13 +11,21 @@ from ..schemas import GameCreateSchema, GameUpdateSchema
 games_bp = Blueprint("games", __name__)
 
 
-def serialize_game(game: Game) -> dict[str, object]:
+class SerializedGame(TypedDict):
+    id: int
+    name: str
+    found_department_ids: list[str]
+    score: int
+    created_at: str
+
+
+def serialize_game(game: Game) -> SerializedGame:
     return {
         "id": game.id,
         "name": game.name,
         "found_department_ids": game.found_department_ids,
         "score": game.score,
-        "created_at": game.created_at.isoformat()
+        "created_at": game.created_at.isoformat(),
     }
 
 
